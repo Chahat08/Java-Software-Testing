@@ -12,8 +12,10 @@ class DemoApplicationTests {
 
 	Calculator underTest = new Calculator();
 
-	@Test
+	@Test // JUnit test
 	void shouldAddNumbers() {
+		// given, when, then are BDD test styles
+
 		// given
 		int a=1;
 		int b=2;
