@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -21,7 +22,8 @@ class DemoApplicationTests {
 		int result = underTest.add(a, b);
 
 		// then
-		assertEquals(3, result);
+		assertThat(result).isEqualTo(3);
+		// assertEquals(3, result);
 
 	}
 
