@@ -3,31 +3,30 @@ package com.example.demo.student;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
 
     // student repo has been tested, we don't need to autowire it (get a real instance of it), instead we will mock it
     @Mock
     private StudentRepository studentRepository;
-    private AutoCloseable autoCloseable;
     private StudentService studentServiceUnderTest;
 
     @BeforeEach
     void setUp(){
-        // start up all the mocks in this test class
-        autoCloseable = MockitoAnnotations.openMocks(this);
+        // mockito extension can handle the aftereach method to close the mocks
+
         // get a fresh instance for student service before each test
         studentServiceUnderTest = new StudentService(studentRepository);
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
-        autoCloseable.close();
     }
 
     @Test
@@ -45,7 +44,23 @@ class StudentServiceTest {
 
     @Test
     void addStudent() {
+        // given
+        Student student = new Student("ck",
+                "chahat.ck88@gmail.com",
+                Gender.FEMALE);
 
+        // when
+        studentServiceUnderTest.addStudent(student);
+
+        // then
+        // checking if student repository was invoked with the same student that we created
+        ArgumentCaptor<Student> studentArgumentCaptor = ArgumentCaptor.forClass(Student.class);
+
+        Mockito.verify(studentRepository).save(studentArgumentCaptor.capture());
+        // above: verify that studentrepository.save was called. capture the arguemtn that it was called with.
+
+        Student capturedStudent = studentArgumentCaptor.getValue();
+        assertThat(capturedStudent).isEqualTo(student);
     }
 
     @Test
