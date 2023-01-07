@@ -1,6 +1,5 @@
 package com.example.demo.student;
 
-import org.hibernate.query.criteria.internal.predicate.BooleanExpressionPredicate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
